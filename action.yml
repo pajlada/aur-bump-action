@@ -1,0 +1,37 @@
+---
+name: "AUR bump PKGVER"
+description: "Bump the PKGVER of an AUR package"
+author: pajlada
+branding:
+  color: purple
+  icon: command
+inputs:
+  package_name:
+    description: "The AUR package name you want to update."
+    required: true
+  commit_username:
+    description: "The username to use when creating the new commit."
+    required: true
+  commit_email:
+    description: "The email to use when creating the new commit."
+    required: true
+  ssh_private_key:
+    description: "Your private key with access to AUR package."
+    required: true
+  new_pkgver:
+    description: "The new PKGVER to be inserted into the PKGBUILD and .SRCINFO files."
+    required: true
+  dry_run:
+    description: "A boolean value deciding whether to skip the final push or not"
+    required: false
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.package_name }}
+    - ${{ inputs.commit_username }}
+    - ${{ inputs.commit_email }}
+    - ${{ inputs.ssh_private_key }}
+    - ${{ inputs.new_pkgver }}
+    - ${{ inputs.dry_run }}
